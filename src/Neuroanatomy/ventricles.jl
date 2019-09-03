@@ -1,52 +1,31 @@
-# TODO : these are not actually CSF
+# TODO : these are not actually CSF but proximal to ventricular structures
 # - Angular bundle
 # - Subventricular zone
+#
+# TODO - foramens (monro etc.)
 
 
-const InferiorLateralVentricle = AnatomicalStructure(:inferior_lateral_ventricle)
+const CerebrospinalFluid = AnatomicalStructure("cerebrospinal fluid")
+const CSF = CerebrospinalFluid
+
+const Ventricles = AnatomicalStructure("ventricles")
+
+const LateralVentricle = BilateralStructure(" lateral ventricle")
+const InferiorLateralVentricle = BilateralStructure("inferior lateral ventricle")
 const InferiorHorn = InferiorLateralVentricle
 
-const PosteriorLateralVentricle = AnatomicalStructure(:posterior_lateral_ventricle)
+const PosteriorLateralVentricle = BilateralStructure("posterior lateral ventricle")
 const PosteriorHorn = PosteriorLateralVentricle
 
-const AnteriorLateralVentricle = AnatomicalStructure(:anterior_lateral_ventricle)
+const AnteriorLateralVentricle = BilateralStructure("anterior lateral ventricle")
 const AnteriorHorn = AnteriorLateralVentricle
 
-const BodyOfLateralVentricle = AnatomicalStructure(:body_of_lateral_ventricle)
+const BodyOfLateralVentricle = AnatomicalStructure("body of lateral ventricle")
 
 const ThirdVentricle = AnatomicalStructure("third ventricle")
 
 const FourthVentricle = AnatomicalStructure("fourth ventricle")
 
 
+# note: this is commonly called the fifth ventricle (it shouldn't be though)
 const CavumSeptumPellucidum = AnatomicalStructure("cavum septum pellucidum")
-
-const LateralVentricle = AnatomicalStructure(
-    label = "lateral ventricle",
-    structures = (
-        AnteriorHorn,
-        BodyOfLateralVentricle,
-        InferiorHorn,
-        PosteriorHorn
-     )
-   )
-
-const Ventricles = AnatomicalStructure(
-    label = "ventricles",
-    structures = (
-        left(LateralVentricle),
-        right(LateralVentricle),
-        ThirdVentricle,
-        FourthVentricle
-    )
-   )
-
-const CerebrospinalFluid = AnatomicalStructure(
-    "cerebrospinal fluid",
-    structures = (
-        Ventricles,
-        CavumSeptumPellucidum
-    )
-   )
-
-const CSF = CerebrospinalFluid

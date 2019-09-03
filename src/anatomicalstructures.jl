@@ -110,9 +110,9 @@ Base.names(s::) = names(structure(s))
 """
     PointStructure
 """
-struct PointStructure{S<:AbstractAnatomy,T} <: PositionedStructure{S,Point3{T}}
+struct PointStructure{S<:AbstractAnatomy,T,N} <: PositionedStructure{S,Point{N,T}}
     structure::S
-    position::Point3{T}
+    position::Point{N,T}
 end
 
 position(s::PositionedStructure) = getproperty(s, :position)
@@ -121,9 +121,9 @@ structure(s::PositionedStructure) = getproperty(s, :structure)
 """
     WeightedPointStructure
 """
-struct WeightedPointStructure{S<:AbstractAnatomy,T} <: WeightedPositionedStructure{W,S,Point3{T}}
+struct WeightedPointStructure{S<:AbstractAnatomy,T,N} <: WeightedPositionedStructure{W,S,Point{N,T}}
     structure::S
-    position::Point3{T}
+    position::Point{N,T}
     weight::W
 end
 
@@ -142,9 +142,9 @@ weight(s::WeightedPointStructure) = getproperty(s, :weight)
 A link containing only positional information that chains together anatomical
 structures.
 """
-struct SimpleLink{T} <: PositionedAnatomy{Point3{T}}
-    src::Point3{T}
-    dst::Point3{T}
+struct SimpleLink{T,N} <: PositionedAnatomy{Point{N,T}}
+    src::Point{N,T}
+    dst::Point{N,T}
 end
 
 src(s::SimpleLink) = getproperty(s, :src)
@@ -155,7 +155,7 @@ dst(s::SimpleLink) = getproperty(s, :dst)
 
 A link associating two distinct `PositionedStructures`.
 """
-struct StructureLink{S,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: PositionedStructure{S,Point3{T}}
+struct StructureLink{S,T,N,Src<:PositionedStructure{S,Point{N,T}},Dst<:PositionedStructure{S,Point{N,T}}} <: PositionedStructure{S,Point{N,T}}
     src::Src
     dst::Dst
 end
@@ -166,7 +166,7 @@ dst(s::StructureLink) = getproperty(s, :dst)
 """
     WeightedStructureLink{W,S,T}
 """
-struct WeightedStructureLink{W,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: WeightedPositionedStructure{S,Point3{T}}
+struct WeightedStructureLink{W,T,N,Src<:PositionedStructure{S,Point{N,T}},Dst<:PositionedStructure{S,Point{N,T}}} <: WeightedPositionedStructure{S,Point{N,T}}
     src::Src
     dst::Dst
     weight::W
@@ -182,7 +182,7 @@ weight(s::WeightedStructureLink) = getproperty(s, :weight)
 A link associating two distinct `PositionedStructures` through series of
 `SimpleLink` types.
 """
-struct StructureLinkPath{S,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: PositionedStructure{S,Point3{T}}
+struct StructureLinkPath{S,T,Src<:PositionedStructure{S,Point{N,T}},Dst<:PositionedStructure{S,Point{N,T}}} <: PositionedStructure{S,Point{N,T}}
     src::Src
     dst::Dst
     pathway::Vector{SimpleLink{T}}
@@ -197,7 +197,7 @@ dst(s::StructureLink) = getproperty(s, :dst)
 A link associating two distinct `PositionedStructures` through series of
 `SimpleLink` types with accompanying weights.
 """
-struct WeightedStructureLinkPath{W,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: WeightedPositionedStructure{S,Point3{T}}
+struct WeightedStructureLinkPath{W,T,N,Src<:PositionedStructure{S,Point{N,T}},Dst<:PositionedStructure{S,Point{N,T}}} <: WeightedPositionedStructure{S,Point{N,T}}
     src::Src
     dst::Dst
     pathway::Vector{SimpleLink{T}}

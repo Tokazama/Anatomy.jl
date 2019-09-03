@@ -1,11 +1,7 @@
 const MedialOrbitalSulcus = Sulcus("medial orbital sulcus")
 
-const FrontomarginalSulcus = Sulcus(
-    label = "frontomarginal sulcus"
-    boundedregions = (LateralOrbitofrontalGyrus, SuperiorFrontalGyrus)
-   )
+const FrontomarginalSulcus = Sulcus("frontomarginal sulcus")
 
-###
 const SuperiorFrontalSulcus = Sulcus("superior frontal sulcus")
 
 const InferiorFrontalSulcus = Sulcus("inferior frontal sulcus")
@@ -45,10 +41,8 @@ const IntraparietalSulcus = Sulcus("intraparietal sulcus")
 
 const PosteriorRamusOfTheLateralSulcus = Sulcus("posterior ramus of the lateral sulcus")
 
-const LateralSulcus = Sulcus(
-    label = "lateral sulcus"
-    structures = (PosteriorRamusOfTheLateralSulcus)
-   )
+# child = PosteriorRamusOfTheLateralSulcus
+const LateralSulcus = Sulcus("lateral sulcus")
 
 const LunateSulcus = Sulcus("lunate sulcus")
 

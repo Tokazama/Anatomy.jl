@@ -22,6 +22,7 @@ include("anatomicalstructures.jl")
 include("positions.jl")
 include("anatomicalvector.jl")
 
+include("atlas.jl")
 include("Neuroanatomy/Neuroanatomy.jl")
 
 

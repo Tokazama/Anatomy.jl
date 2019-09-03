@@ -110,5 +110,18 @@ function buildbrain()
     ###
     ### Cerebellum
     ###
+
+    addchild!(brain, CSF)
+    addchild!(brain, CSF, Ventricles)
+    addchild!(brain, Ventricles, [LateralVentricle,
+                                  ThirdVentricle,
+                                  FourthVentricle])
+
+    addchild!(brain, CSF, CavumSeptumPellucidum)
+
+    addchild!(brain, LateralVentricle, [AnteriorHorn,
+                                        BodyOfLateralVentricle,
+                                        InferiorHorn,
+                                        PosteriorHorn])
 end
 
