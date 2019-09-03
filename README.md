@@ -1,3 +1,1 @@
 # Anatomy.jl
-
-# Anatomy.jl
