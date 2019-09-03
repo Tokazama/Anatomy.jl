@@ -1,3 +1,31 @@
+# Outline:
+# * Abstract types
+#   - AbstractAnatomy
+#   - PositionedAnatomy
+#     - positiontype
+#   - PositionedStructure
+#     - structuretype
+#   - WeightedPositionedStructure
+#     - weighttype
+# * Structure types
+#   - AnatomicalStructure
+#   - PointStructure
+#   - WeightedPointStructure
+# * Link types
+#   - SimpleLink
+#   - StructureLink
+#   - WeightedStructureLink
+#   - StructureLinkPath
+#   - WeightedStructureLinkPath
+# * Hierarchical types
+#
+# - TODO should weights be the field for colors or should that be a separate option.
+#
+
+###
+### Abstract types
+###
+
 """
     AbstractAnatomy
 
@@ -6,7 +34,55 @@ Supertype for representing anatomical information.
 abstract type AbstractAnatomy end
 
 """
-    AnatomicalStructure{P}
+    PositionedAnatomy
+
+An `AbstractAnatomy` subtype that contains positional information.
+"""
+abstract type PositionedAnatomy{P} <: AbstractAnatomy end
+
+"""
+    positioneltype(::PositionedAnatomy)
+
+Returns the underlying type of the position in an instance of
+`PositionedAnatomy`.
+"""
+positiontype(::PA) where {PA<:PositionedAnatomy} = positiontype(PA)
+positiontype(::Type{<:PositionedAnatomy{P}}) where {P} = P
+
+"""
+    PositionedStructure{S,P}
+
+An `PositionedAnatomy` subtype that contains positional and structural
+information.
+"""
+abstract type PositionedStructure{S,P} <: PositionedAnatomy{S,P} end
+
+"""
+    structuretype(::PositionedStructure)
+
+Returns the underlying structure type in a `PositionedStructure`.
+"""
+structuretype(::PS) where {PS<:PositionedAnatomy} = structuretype(PS)
+structuretype(::Type{<:PositionedAnatomy{S}}) where {S} = S
+
+"""
+    WeightedPositionedStructure{W<:Number,S,P}
+
+A `PositionedStructure` subtype that contains a weight in addition to
+positional and structural information.
+"""
+abstract type WeightedPositionedStructure{W,S,P} <: PositionedAnatomy{S,P} end
+
+weighttype(::WPS) where {WPS<:WeightedPositionedStructure} = weighttype(WPS)
+weighttype(::Type{<:WeightedPositionedStructure{W}}) where {W} = W
+
+
+###
+### Point/node/vertex structs
+###
+
+"""
+    AnatomicalStructure
 
 Represents an  anatomical structure. 
 """
@@ -18,31 +94,35 @@ AnatomicalStructure(n::String) = AnatomicalStructure(Symbol(n))
 
 Base.names(s::AnatomicalStructure) = s.name
 
-"""
-    PositionedStructure
-"""
-abstract type PositionedAnatomy{S} <: AbstractAnatomy end
-
-struct RelativelyPositionedAnatomy{R,P} end
-
-
 
 """
-    PositionedStructure
+    PointStructure
 """
-struct PositionedStructure{T} <: AbstractAnatomy
-    structure::AnatomicalStructure
+struct PointStructure{S<:AnatomicalStructure,T} <: PositionedStructure{S,Point3{T}}
+    structure::S
     position::Point3{T}
 end
 
-"""
-    AbstractAnatomicalLink
+position(s::PositionedStructure) = getproperty(s, :position)
+structure(s::PositionedStructure) = getproperty(s, :structure)
 
-Supertype for representing anatomical information that links other
-`AbstractAnatomy` subtypes.
 """
-abstract type AbstractAnatomicalLink{T} <: AbstractAnatomy end
+    WeightedPointStructure
+"""
+struct WeightedPointStructure{S<:AnatomicalStructure,T} <: WeightedPositionedStructure{W,S,Point3{T}}
+    structure::S
+    position::Point3{T}
+    weight::W
+end
 
+position(s::WeightedPointStructure) = getproperty(s, :position)
+structure(s::WeightedPointStructure) = getproperty(s, :structure)
+weight(s::WeightedPointStructure) = getproperty(s, :weight)
+
+
+###
+### Link/edge structs
+###
 
 """
     SimpleLink
@@ -50,37 +130,77 @@ abstract type AbstractAnatomicalLink{T} <: AbstractAnatomy end
 A link containing only positional information that chains together anatomical
 structures.
 """
-struct SimpleLink{T} <: AbstractAnatomicalLink{T}
+struct SimpleLink{T} <: PositionedAnatomy{Point3{T}}
     src::Point3{T}
     dst::Point3{T}
 end
 
-"""
-    FlowLink
+src(s::SimpleLink) = getproperty(s, :src)
+dst(s::SimpleLink) = getproperty(s, :dst)
 
-Represents a link where something flows between two structures.
 """
-struct FlowLink{T} <: AbstractAnatomicalLink{T}
-    src::PositionedStructure{T}
-    dst::PositionedStructure{T}
+    StructureLink
+
+A link associating two distinct `PositionedStructures`.
+"""
+struct StructureLink{S,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: PositionedStructure{S,Point3{T}}
+    src::Src
+    dst::Dst
 end
 
-"""
-    NeuronFiberLink
-"""
-struct NeuronFiberLink{T} <: AbstractAnatomicalStructure{T}
-    fibers::AnatomicalStructure
-    link::FlowLink{T}
-end
+src(s::StructureLink) = getproperty(s, :src)
+dst(s::StructureLink) = getproperty(s, :dst)
 
 """
-    NeuronFibersPathway
+    WeightedStructureLink{W,S,T}
 """
-struct NeuronFibersPathway{T} <: AbstractAnatomicalStructure{T}
-    fibers::AnatomicalStructure
-    link::FlowLink{T}
+struct WeightedStructureLink{W,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: WeightedPositionedStructure{S,Point3{T}}
+    src::Src
+    dst::Dst
+    weight::W
+end
+
+src(s::WeightedStructureLink) = getproperty(s, :src)
+dst(s::WeightedStructureLink) = getproperty(s, :dst)
+weight(s::WeightedStructureLink) = getproperty(s, :weight)
+
+"""
+    StructureLinkPath
+
+A link associating two distinct `PositionedStructures` through series of
+`SimpleLink` types.
+"""
+struct StructureLinkPath{S,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: PositionedStructure{S,Point3{T}}
+    src::Src
+    dst::Dst
     pathway::Vector{SimpleLink{T}}
 end
+
+src(s::StructureLink) = getproperty(s, :src)
+dst(s::StructureLink) = getproperty(s, :dst)
+
+"""
+    WeightedStructureLinkPath{W,S,T}
+
+A link associating two distinct `PositionedStructures` through series of
+`SimpleLink` types with accompanying weights.
+"""
+struct WeightedStructureLinkPath{W,T,Src<:PositionedStructure{S,Point3{T}},Dst<:PositionedStructure{S,Point3{T}}} <: WeightedPositionedStructure{S,Point3{T}}
+    src::Src
+    dst::Dst
+    pathway::Vector{SimpleLink{T}}
+    weight::Vector{W}
+end
+
+src(s::WeightedStructureLink) = getproperty(s, :src)
+dst(s::WeightedStructureLink) = getproperty(s, :dst)
+weight(s::WeightedStructureLink) = getproperty(s, :weight)
+
+const LinkeType = Union{StructureLink,StructureLinkPath,WeightedStructureLink,WeightedStructureLinkPath}
+
+###
+### Hierarchical links
+###
 
 """
     HierarchicalLink
