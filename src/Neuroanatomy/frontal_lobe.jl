@@ -2,9 +2,7 @@ const FrontalPole = BilateralStructure("frontal pole")
 
 const FrontopolarCortex = BilateralStructure("frontopolar cortex")
 
-const SuperiorFrontalGyrus = BilateralStructure(
-    name = "superior frontal gyrus"
-)
+const SuperiorFrontalGyrus = BilateralStructure("superior frontal gyrus")
 
 const MiddleFrontalGyrus = BilateralStructure("middle frontal gyrus")
 
@@ -19,14 +17,8 @@ const ParsTriangularis = BilateralStructure("pars triangularis")
 
 const ParsOpercularis = BilateralStructure("pars opercularis")
 
-const InferiorFrontalGyrus = BilateralStructure(
-    name = "inferior frontal gyrus",
-    children = (
-        ParsOrbitalis,
-        ParsTriangularis,
-        ParsOpercularis
-    )
-)
+const InferiorFrontalGyrus = BilateralStructure("inferior frontal gyrus")
+
 
 
 const PrecentralGyrus = BilateralStructure("precentral gyrus")
@@ -49,21 +41,5 @@ const GyrusRectus = BilateralStructure("gyrus rectus")
 
 const RostralGyrus = BilateralStructure("rostral gyrus")
 
-const FrontalLobe = BilateralStructure(
-    name = "frontal lobe",
-    children = (
-        FrontalPole,
-        FrontopolarCortex,
-        SuperiorFrontalGyrus,
-        MiddleFrontalGyrus,
-        InferiorFrontalGyrus,
-        PrecentralGyrus,
-        MedialFrontalGyrus,
-        ParacentralLobule,
-        OrbitalGyrus,
-        GyrusRectus,
-        RostralGyrus
-        )
-)
-
+const FrontalLobe = BilateralStructure("frontal lobe")
 #const FrontoMarginalSulcus = Sulcus("fronto-marginal_sulcus")

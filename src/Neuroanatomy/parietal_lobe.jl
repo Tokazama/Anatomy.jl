@@ -12,13 +12,4 @@ const AngularGyrus = BilateralStructure("angular gyrus")
 const Precuneus = BilateralStructure("precuneus")
 
 
-const ParietalLobe = BilateralStructure(
-    name = "parietal lobe",
-    children = (
-        PostcentralGyrus,
-        SuperiorParietalLobule,
-        InferiorParietalLobule,
-        Precuneus
-    )
-)
-
+const ParietalLobe = BilateralStructure("parietal lobe")

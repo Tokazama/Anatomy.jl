@@ -24,34 +24,10 @@ const LateralParietoTemporalLine = BilateralStructure("lateral parietotemporal l
 
 const SuperiorTemporalSulcus = BilateralStructure("superior temporal sulcus")
 
-const MesialTemporalLobe = BilateralStructure(
-    name = "mesial temporal lobe",
-    children = (
-        Hippocampus,
-        Amygdala,
-        DentateGyrus,
-        Uncus,
-        ParahippocampalGyrus,
-        MedialOccipitotemporalGyrus,
-        Subiculum,
-        EntorhinalCortex
-    )
-)
+const MesialTemporalLobe = BilateralStructure("mesial temporal lobe")
 
 
-
-const TemporalLobe = BilateralStructure(
-    name = "temporal lobe",
-    children = (
-        TemporalPole,
-        HeschlGyrus,
-        SuperiorTemporalGyrus,
-        MiddleTemporalGyrus,
-        InferiorTemporalGyrus,
-        FusiformGyrus,
-        MesialTemporalLobe
-    )
-)
+const TemporalLobe = BilateralStructure("temporal lobe")
 
 #= TODO functional divisions
 const PrimaryAuditoryCortex = BilateralStructure(:primary_auditory_cortex)

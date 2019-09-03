@@ -9,12 +9,12 @@ const PosteriorCingulum = BilateralStructure("posterior cingulum")
 const CingulateCingulum = BilateralStructure("cingulate cingulum")
 const ParahippocampalCingulum = BilateralStructure("parahippocampal cingulum")
 
-const CingulateGyrus = BilateralStructure(
-    name = "cingulate gyrus",
+#=
     children = (
         AnteriorCingulateCortex,
         AnteriorCingulum,
         PosteriorCingulateCortex,
         PosteriorCingulum
    )
-)
+=#
+const CingulateGyrus = BilateralStructure("cingulate gyrus")

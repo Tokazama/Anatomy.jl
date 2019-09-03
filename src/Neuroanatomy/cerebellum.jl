@@ -12,18 +12,12 @@ const CerebellarVemusLobuleX = AnatomicalStructure("cerebellar vermus lobule X")
 const FlocculonodularLobe = AnatomicalStructure("flocculonodular lobe")
 
 # TODO sub structures need more about cerebellar lob components
-const Vestibulocerebellum = BilateralStructure(
-    name = "vestibulocerebellum",
-    children = (
-        FlocculonodularLobe,
-    )
-)
+# children = Flocculonodular lobe
+const Vestibulocerebellum = BilateralStructure("vestibulocerebellum")
 const Archicerebellum = Vestibulocerebellum
 
 # TODO sub structures for Cerebrocerebellum
-const Cerebrocerebellum = BilateralStructure(
-    name = "cerebrocerebellum"
-)
+const Cerebrocerebellum = BilateralStructure("cerebrocerebellum" )
 
 """
     Vermis
@@ -34,7 +28,7 @@ const Cerebrocerebellum = BilateralStructure(
 """
 const Vermis = AnatomicalStructure("vermis")
 
-const CerebellumCortex = AnatomicalStructure("cerebellum cortex")
+const CerebellumCortex = BilateralStructure("cerebellum cortex")
 #const CerebellumWhiteMatter = AnatomicalStructure("cerebellum white matter")
 
 #= TODO this needs a different separation than white matter vs cortex
@@ -50,12 +44,7 @@ const Cerebellum = AnatomicalStructure(
 # TODO double check paravermis
 const Paravermis = BilateralStructure("paravermis")
 
-const Spinocerebellum = BilateralStructure(
-    name = "ppinocerebellum",
-    children = (
-        Vermis,
-        Paravermis  # TODO Paravermis
-    )
-)
+# children Vermis and paravermis
+const Spinocerebellum = BilateralStructure("spinocerebellum")
 const Paleocerebellum = Spinocerebellum
 

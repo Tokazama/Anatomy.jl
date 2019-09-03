@@ -21,13 +21,5 @@ const CalcarineCortex = BilateralStructure("calcarine cortex") # visual cortex
 
 const Cuneus = BilateralStructure("cuneus")
 
-const OccipitalLobe = BilateralStructure(
-    name = "occipital lobe",
-    children = (
-        OccipitalPole,
-        LingualGyrus,
-        FusiformGyrus,
-        CalcarineCortex,
-        Cuneus
-        )
-)
+const OccipitalLobe = BilateralStructure("occipital lobe")
+

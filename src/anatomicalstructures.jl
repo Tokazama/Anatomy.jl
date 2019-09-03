@@ -9,6 +9,7 @@
 #     - weighttype
 # * Structure types
 #   - AnatomicalStructure
+#   - BilateralStructure
 #   - PointStructure
 #   - WeightedPointStructure
 # * Link types
@@ -94,11 +95,22 @@ AnatomicalStructure(n::String) = AnatomicalStructure(Symbol(n))
 
 Base.names(s::AnatomicalStructure) = s.name
 
+"""
+    BilateralStructure
+"""
+
+struct BilateralStructure{S<:AnatomicalStructure} <: AbstractAnatomy
+    structure::S
+end
+
+structure(s::BilateralStructure) = getproperty(s, :structure)
+
+Base.names(s::) = names(structure(s))
 
 """
     PointStructure
 """
-struct PointStructure{S<:AnatomicalStructure,T} <: PositionedStructure{S,Point3{T}}
+struct PointStructure{S<:AbstractAnatomy,T} <: PositionedStructure{S,Point3{T}}
     structure::S
     position::Point3{T}
 end
@@ -109,7 +121,7 @@ structure(s::PositionedStructure) = getproperty(s, :structure)
 """
     WeightedPointStructure
 """
-struct WeightedPointStructure{S<:AnatomicalStructure,T} <: WeightedPositionedStructure{W,S,Point3{T}}
+struct WeightedPointStructure{S<:AbstractAnatomy,T} <: WeightedPositionedStructure{W,S,Point3{T}}
     structure::S
     position::Point3{T}
     weight::W
@@ -205,11 +217,12 @@ const LinkeType = Union{StructureLink,StructureLinkPath,WeightedStructureLink,We
 """
     HierarchicalLink
 """
-struct HierarchicalLink{S<:AbstractAnatomy,P,C} <: AbstractAnatomy
+Base.@kwdef struct HierarchicalLink{S<:AbstractAnatomy,P,C} <: AbstractAnatomy
     structure::S
-    parent::P
-    children::C
+    parent::P=nothing
+    children::C=HierarchicalLink[]
 end
+
 
 const TopHierarchicalLink{S,C<:Vector} = HierarchicalLink{S,Nothing,C}
 const BottomHierarchicalLink{S,P<:AbstractAnatomy} = HierarchicalLink{S,P,Nothing}
@@ -218,7 +231,22 @@ Base.parent(s::HierarchicalLink) = getproperty(s, :parent)
 
 AbstractTrees.children(s::HierarchicalLink) = getproperty(s, :children)
 
-Base.getindex(v::AbstractAnatomicalStructure, i::Int) = children(v)[i]
+Base.getindex(v::HierarchicalLink, i::Int) = children(v)[i]
+
+# TODO find function for searching tree structure
+function addchild!(tree:HierarchicalLink, parent::AbstractAnatomy, child::AbstractAnatomy)
+end
+
+function addchild!(parent::HierarchicalLink, child::AbstractAnatomy)
+    push!(parent.children, HierarchicalLink(child, parent, HierarchicalLink[]))
+end
+
+function addchild!(parent::HierarchicalLink, child::Vector)
+    for childe_i in child
+        addchild!(parent, child)
+    end
+end
+
 
 """
     nchildren(::HierarchicalLink)
