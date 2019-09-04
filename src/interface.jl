@@ -30,3 +30,8 @@ function weighttype(::AbstractAnatomy) end
 
 """
 function Base.in(a::AbstractAnatomy, b::AbstractAnatomy) end
+
+"""
+connect() -> Synapse
+"""
+function GeometryBasics.connect() end
