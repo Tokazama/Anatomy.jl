@@ -47,6 +47,7 @@ function buildbrain()
                                     InferiorTemporalGyrus,
                                     FusiformGyrus,
                                     MesialTemporalLobe])
+
     addchild!(brain, MesialTemporalLobe, [Hippocampus,
                                           Amygdala,
                                           DentateGyrus,

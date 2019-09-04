@@ -1,3 +1,15 @@
+"""
+    HasAnatomicalStructures{T}
+
+
+"""
+struct HasAnatomicalStructures{T} end
+
+struct HasVertices end
+
+struct HasFaces end
+
+struct HasCoordinates end
 
 """
     AnatomicalAtlas
@@ -12,3 +24,11 @@ struct AnatomicalAtlas{A,I,C,P,H}
     positions::P
     hierarchy::H
 end
+
+# This is the GL type we try to immitate
+# - GLNormalAttributeMesh
+# - GLNormalMesh
+# - GLNormalUVMesh
+# - GLNormalVertexcolorMesh
+# - GLPlainMesh
+#

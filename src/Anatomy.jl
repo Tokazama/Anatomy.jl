@@ -25,5 +25,12 @@ include("anatomicalvector.jl")
 include("atlas.jl")
 include("Neuroanatomy/Neuroanatomy.jl")
 
+"""
+Two quick questions:
+
+
+2. What is the best way to feed `Makie.jl` mesh components for plotting?
+    - A mesh type form 
+"""
 
 end # module

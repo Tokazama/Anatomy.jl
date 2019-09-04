@@ -63,7 +63,7 @@ abstract type PositionedStructure{S,P} <: PositionedAnatomy{S,P} end
 
 Returns the underlying structure type in a `PositionedStructure`.
 """
-structuretype(::PS) where {PS<:PositionedAnatomy} = structuretype(PS)
+structuretype(::P) where {P<:PositionedAnatomy} = structuretype(P)
 structuretype(::Type{<:PositionedAnatomy{S}}) where {S} = S
 
 """
